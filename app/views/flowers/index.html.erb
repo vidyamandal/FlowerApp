@@ -1,0 +1,59 @@
+ <div class="container">
+
+<div>    
+
+          <strong>   Sort By: </strong>
+		
+   		<%= collection_select(:user, :email, User.all, :admin, :email)%>   
+		
+</div>
+
+<div>    
+
+          <strong>   Sort By: </strong>
+		
+   		<%= collection_select(:flower, :color, Flower.all, :name, :color)%>   
+		
+</div>
+
+
+<h1>Listing Flowers</h1>
+
+<%= flash[:alert] %>
+
+
+
+<% @flowers.in_groups_of(3) do |group| %>
+  <div class="row">
+    <% group.compact.each do |flower| %>
+      <div class="col-md-4">
+        <%= image_tag flower.picture_url, width: '50%' if flower.picture.present?%>
+        <h4><%= link_to flower.name, flower %></h4> 
+		<br>
+		<%= flower.created_at %> created by <%= flower.user.email %>
+		<br>
+		
+        <%= flower.color %>
+		<br>
+		<%= flower.price %>
+		<br>
+		
+		<% if can? :update, flower %>
+			<%= link_to 'Edit', edit_flower_path(flower) %>
+		<% end %>
+		
+		
+		<% if can? :destroy, flower %>
+			<%= link_to 'Delete', flower, method: :delete, data: { confirm: 'Are you sure?'} %>
+		<% end %>
+		
+		
+		</div>
+    <% end %>
+  </div>
+<% end %>
+
+</div>
+
+<h2> <%= link_to 'New Flower', new_flower_path %> </h2>
+
