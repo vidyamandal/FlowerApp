@@ -6,9 +6,17 @@ class FlowersController < ApplicationController
   def index
      
     @users = User.all
-    @flowers = Flower.build(params[current_user])
     
-       
+   # if params[:user][:email] and params[:flower][:user_id] 
+    #  @flowers = Flower.search(params[:flower][:user_id])
+  #  else
+   #   @flowers = Flower.all 
+   # end
+   #@flowers = Flower.build(params[current_user])
+    
+    @flowers = Flower.all
+     
+   
   end
 
   # GET /flowers/1
@@ -31,7 +39,7 @@ class FlowersController < ApplicationController
   # POST /flowers.json
   def create
     @user = current_user
-    @flower = @user.flowers.build(flower_params)
+   # @flower = @user.flowers.build(flower_params)
 
     
     respond_to do |format|
@@ -79,4 +87,9 @@ class FlowersController < ApplicationController
     def flower_params
       params.require(:flower).permit(:name, :color, :picture, :price)
     end
+  
+  def user_params
+    params.require(:user).permit(:id, :email)
+  end
+  
 end
